@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import Header from './components/Header'
 import UserTable from './components/UserTable'
 
 const App = () => {
     const [users, setUsers] = useState([]);
-    const [isLoading, setIsLoading] = useState();
+    const [isLoading, setIsLoading] = useState(false);
     const [isOpenModal, setIsOpenModal] = useState();
     const [userEditingData, setUserEditingData] = useState(null);
 
@@ -19,6 +19,7 @@ const App = () => {
 
     useEffect(() => {
         fetchData()
+        setIsLoading(false)
     }, [])
 
     const toggleModal = () => {
@@ -55,8 +56,9 @@ const App = () => {
 
     return (
         <>
-            <Header addUser={handleAddUser} toggleModal={toggleModal} isOpenModal={isOpenModal} userEditingData={userEditingData} />
-            {isLoading ? "Is Loading ..." : <UserTable users={users} onDelete={handleDelete} onEdit={handleOpenEdit} />}
+            <Header addUser={handleAddUser} toggleModal={toggleModal} isOpenModal={isOpenModal}
+                    userEditingData={userEditingData}/>
+            {isLoading ? "Is Loading ..." : <UserTable users={users} onDelete={handleDelete} onEdit={handleOpenEdit}/>}
 
         </>
 
