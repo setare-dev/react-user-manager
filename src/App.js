@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import Header from './components/Header'
 import UserTable from './components/UserTable'
+import Loading from './components/Loading'
 
 const App = () => {
     const [users, setUsers] = useState([]);
-    const [isLoading, setIsLoading] = useState();
+    const [isLoading, setIsLoading] = useState(false);
     const [isOpenModal, setIsOpenModal] = useState();
     const [userEditingData, setUserEditingData] = useState(null);
 
     const fetchData = () => {
         setIsLoading(true);
-        const usersList = JSON.parse(localStorage.getItem('USERS_LIST'));
-        if (usersList) {
-            setUsers(usersList.reverse());
+        setTimeout(() => {
+            const usersList = JSON.parse(localStorage.getItem('USERS_LIST'));
+            if (usersList) {
+                setUsers(usersList.reverse());
+            }
             setIsLoading(false)
-        }
+        }, 2000)
     }
 
     useEffect(() => {
@@ -56,7 +59,7 @@ const App = () => {
     return (
         <>
             <Header addUser={handleAddUser} toggleModal={toggleModal} isOpenModal={isOpenModal} userEditingData={userEditingData} />
-            {isLoading ? "Is Loading ..." : <UserTable users={users} onDelete={handleDelete} onEdit={handleOpenEdit} />}
+            {isLoading ? <Loading /> : <UserTable users={users} onDelete={handleDelete} onEdit={handleOpenEdit} />}
 
         </>
 
