@@ -13,9 +13,6 @@ const App = () => {
         setIsLoading(true);
         setTimeout(() => {
             const usersList = JSON.parse(localStorage.getItem('USERS_LIST'));
-            if (usersList) {
-                setUsers(usersList.reverse());
-            }
             setIsLoading(false)
         }, 2000)
     }
@@ -34,7 +31,6 @@ const App = () => {
             return user.id !== key
         })
         localStorage.setItem('USERS_LIST', JSON.stringify(list));
-        fetchData()
     }
 
     const handleOpenEdit = (key) => {
@@ -47,12 +43,12 @@ const App = () => {
         let updatedUsers = [];
         if (data.id === userEditingData?.id) {
             updatedUsers = users.filter(user => user.id !== userEditingData?.id)
-            updatedUsers = [...updatedUsers, data]
+            updatedUsers = [data, ...updatedUsers]
         } else {
-            updatedUsers = [...users, data]
+            updatedUsers = [data, ...users]
         }
         localStorage.setItem('USERS_LIST', JSON.stringify(updatedUsers));
-        fetchData()
+        setUsers(updatedUsers)
         toggleModal()
     }
 
