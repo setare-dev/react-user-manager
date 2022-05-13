@@ -19,11 +19,19 @@ const AddUserFrom = ({ addUser, userEditingData }) => {
         resolver: yupResolver(schema)
     });
 
-    const onSubmit = data => {
+    const getCurrentDate = () => {
         const today = new Date();
-        let now = today.toLocaleString("fa-IR");
-        now = now.split('،')[0];
-        data = { ...data, dateCreatedAt: now, id: userEditingData?.id || uuidv4() }
+        const options = {
+            year: "numeric",
+            month: "2-digit",
+            day: "numeric",
+        };
+        let now = today.toLocaleString("fa-IR", options);
+        return now;
+    };
+
+    const onSubmit = data => {
+        data = { ...data, dateCreatedAt: getCurrentDate(), id: userEditingData?.id || uuidv4() }
         console.log(data);
         addUser(data)
 

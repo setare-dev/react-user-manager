@@ -11,10 +11,8 @@ const App = () => {
     const fetchData = () => {
         setIsLoading(true);
         const usersList = JSON.parse(localStorage.getItem('USERS_LIST'));
-        if (usersList) {
-            setUsers(usersList.reverse());
-            setIsLoading(false)
-        }
+        if (usersList) setUsers(usersList.reverse());
+        setIsLoading(false)
     }
 
     useEffect(() => {
