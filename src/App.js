@@ -12,7 +12,7 @@ const App = () => {
     const fetchData = () => {
         setIsLoading(true);
         setTimeout(() => {
-            const usersList = JSON.parse(localStorage.getItem('USERS_LIST'));
+            setUsers(localStorage.USERS_LIST ? JSON.parse(localStorage.getItem('USERS_LIST')) : []);
             setIsLoading(false)
         }, 2000)
     }
@@ -27,23 +27,24 @@ const App = () => {
     }
 
     const handleDelete = (key) => {
-        const list = users.filter(user => {
-            return user.id !== key
-        })
-        localStorage.setItem('USERS_LIST', JSON.stringify(list));
+        const result = window.confirm('آیا مطمئن هستید؟')
+        if (result) {
+            let newList = users.filter(user => user.id !== key)
+            setUsers(newList);
+            localStorage.setItem('USERS_LIST', JSON.stringify(newList));
+        }
     }
 
     const handleOpenEdit = (key) => {
         toggleModal()
-        const userEditingData = users.filter(user => user.id === key)
-        setUserEditingData(userEditingData[0])
+        const userEditingData = users.find(user => user.id === key)
+        setUserEditingData(userEditingData)
     }
 
     const handleAddUser = (data) => {
         let updatedUsers = [];
         if (data.id === userEditingData?.id) {
-            updatedUsers = users.filter(user => user.id !== userEditingData?.id)
-            updatedUsers = [data, ...updatedUsers]
+            updatedUsers = users.map(user => user.id !== userEditingData?.id ? user : data)
         } else {
             updatedUsers = [data, ...users]
         }
