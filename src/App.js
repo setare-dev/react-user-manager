@@ -11,10 +11,9 @@ const App = () => {
 
     const fetchData = () => {
         setIsLoading(true);
-        setTimeout(() => {
-            setUsers(localStorage.USERS_LIST ? JSON.parse(localStorage.getItem('USERS_LIST')) : []);
-            setIsLoading(false)
-        }, 2000)
+        const usersList = JSON.parse(localStorage.getItem('USERS_LIST'));
+        if (usersList) setUsers(usersList.reverse());
+        setIsLoading(false);
     }
 
     useEffect(() => {
