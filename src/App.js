@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Header from './components/Header'
 import UserTable from './components/UserTable'
+import Loading from './components/Loading'
 
 const App = () => {
     const [users, setUsers] = useState([]);
-    const [isLoading, setIsLoading] = useState();
+    const [isLoading, setIsLoading] = useState(false);
     const [isOpenModal, setIsOpenModal] = useState();
     const [userEditingData, setUserEditingData] = useState(null);
 
@@ -12,7 +13,7 @@ const App = () => {
         setIsLoading(true);
         const usersList = JSON.parse(localStorage.getItem('USERS_LIST'));
         if (usersList) setUsers(usersList.reverse());
-        setIsLoading(false)
+        setIsLoading(false);
     }
 
     useEffect(() => {
@@ -25,36 +26,36 @@ const App = () => {
     }
 
     const handleDelete = (key) => {
-        const list = users.filter(user => {
-            return user.id !== key
-        })
-        localStorage.setItem('USERS_LIST', JSON.stringify(list));
-        fetchData()
+        const result = window.confirm('آیا مطمئن هستید؟')
+        if (result) {
+            let newList = users.filter(user => user.id !== key)
+            setUsers(newList);
+            localStorage.setItem('USERS_LIST', JSON.stringify(newList));
+        }
     }
 
     const handleOpenEdit = (key) => {
         toggleModal()
-        const userEditingData = users.filter(user => user.id === key)
-        setUserEditingData(userEditingData[0])
+        const userEditingData = users.find(user => user.id === key)
+        setUserEditingData(userEditingData)
     }
 
     const handleAddUser = (data) => {
         let updatedUsers = [];
         if (data.id === userEditingData?.id) {
-            updatedUsers = users.filter(user => user.id !== userEditingData?.id)
-            updatedUsers = [...updatedUsers, data]
+            updatedUsers = users.map(user => user.id !== userEditingData?.id ? user : data)
         } else {
-            updatedUsers = [...users, data]
+            updatedUsers = [data, ...users]
         }
         localStorage.setItem('USERS_LIST', JSON.stringify(updatedUsers));
-        fetchData()
+        setUsers(updatedUsers)
         toggleModal()
     }
 
     return (
         <>
             <Header addUser={handleAddUser} toggleModal={toggleModal} isOpenModal={isOpenModal} userEditingData={userEditingData} />
-            {isLoading ? "Is Loading ..." : <UserTable users={users} onDelete={handleDelete} onEdit={handleOpenEdit} />}
+            {isLoading ? <Loading /> : <UserTable users={users} onDelete={handleDelete} onEdit={handleOpenEdit} />}
 
         </>
 
