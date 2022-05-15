@@ -32,10 +32,9 @@ const AddUserFrom = ({ addUser, userEditingData }) => {
 
     const onSubmit = data => {
         data = { ...data, dateCreatedAt: getCurrentDate(), id: userEditingData?.id || uuidv4() }
-        console.log(data);
         addUser(data)
-
     }
+
     return (
         <form  >
             <label>نام و نام خانوادگی</label><br />
@@ -54,7 +53,7 @@ const AddUserFrom = ({ addUser, userEditingData }) => {
             </select><br />
 
             <button className="bg-cyan-500 p-3 text-gray-50 rounded my-6 w-full font-bold" onClick={handleSubmit(onSubmit)}>افزودن </button>
-            ‌        </form >
+        </form >
     );
 }
 
