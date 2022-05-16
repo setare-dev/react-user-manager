@@ -1,7 +1,7 @@
-import React from "react";
-import User from "./User";
+import React from 'react'
+import User from './User'
 
-const UserTable = ({ users, toggleModal, fetchData, setUserEditingData }) => {
+function UserTable({ users, toggleModal, fetchData, setUserEditingData }) {
   return (
     <div className="m-14">
       {users.length > 0 ? (
@@ -43,7 +43,7 @@ const UserTable = ({ users, toggleModal, fetchData, setUserEditingData }) => {
                   setUserEditingData={setUserEditingData}
                   userKey={userKey}
                 />
-              );
+              )
             })}
           </tbody>
         </table>
@@ -53,7 +53,7 @@ const UserTable = ({ users, toggleModal, fetchData, setUserEditingData }) => {
         </h2>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default UserTable;
+export default UserTable
