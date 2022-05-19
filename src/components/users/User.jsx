@@ -33,7 +33,7 @@ function User({
       <td className="border-b border-slate-100 p-4 pl-8 text-slate-500 text-center">
         {data.fullName}
       </td>
-      <td className="border-b border-slate-100 p-4 pl-8 text-slate-500 text-center">
+      <td className="border-b border-slate-100 p-4 pl-8 text-slate-500 text-center  ">
         {data.role === 'admin' ? 'ادمین' : 'کاربر'}
       </td>
       <td className="border-b border-slate-100 p-4 pl-8 text-slate-500 text-center">

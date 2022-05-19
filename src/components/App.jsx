@@ -28,7 +28,7 @@ function App() {
   }
 
   return (
-    <>
+    <div className="font-IRANSans">
       <Header
         fetchData={fetchData}
         isOpenModal={isOpenModal}
@@ -46,7 +46,7 @@ function App() {
           setUserEditingData={setUserEditingData}
         />
       )}
-    </>
+    </div>
   )
 }
 
