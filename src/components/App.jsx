@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 import Header from './layouts/Header'
 import UserTable from './users/UserTable'
 import Loading from './Loading'
@@ -9,12 +10,16 @@ function App() {
   const [isOpenModal, setIsOpenModal] = useState()
   const [userEditingData, setUserEditingData] = useState(null)
 
-  const fetchData = () => {
+  const fetchData = async () => {
     setIsLoading(true)
-    const usersList = localStorage.USERS_LIST
-      ? JSON.parse(localStorage.getItem('USERS_LIST'))
-      : []
-    if (usersList) setUsers(usersList)
+    try {
+      const result = await axios.get(
+        'https://6283e7d36b6c317d5ba758ce.endapi.io/users/'
+      )
+      if (result.data.data.length > 0) setUsers(result.data.data.reverse())
+    } catch (error) {
+      // Show error message for reload again
+    }
     setIsLoading(false)
   }
 
@@ -34,7 +39,6 @@ function App() {
         isOpenModal={isOpenModal}
         toggleModal={toggleModal}
         userEditingData={userEditingData}
-        users={users}
       />
       {isLoading ? (
         <Loading />

@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 import { FiEdit, FiTrash2 } from 'react-icons/fi'
 
 function User({
@@ -15,12 +16,22 @@ function User({
     setUserEditingData(userEditingData[0])
   }
 
-  const handleDelete = (key) => {
+  const handleDelete = async (key) => {
     // eslint-disable-next-line no-alert
     const result = window.confirm('آیا مطمئن هستید؟')
     if (result) {
-      const newList = users.filter((user) => user.id !== key)
-      localStorage.setItem('USERS_LIST', JSON.stringify(newList))
+      // const newList = users.filter((user) => user.id !== key)
+      // localStorage.setItem('USERS_LIST', JSON.stringify(newList))
+      try {
+        const deleteResult = await axios.delete(
+          `https://6283e7d36b6c317d5ba758ce.endapi.io/users/${key}`
+        )
+        if (deleteResult.status === 200) {
+          // show deleteResult sucessfully message to user
+        }
+      } catch (error) {
+        // show deleteResult error message to user
+      }
     }
     fetchData()
   }

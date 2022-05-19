@@ -1,8 +1,8 @@
 import React from 'react'
+import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { v4 as uuidv4 } from 'uuid'
 import NameFamily from './fields/NameFamily'
 import Username from './fields/Username'
 import Email from './fields/Email'
@@ -25,7 +25,7 @@ const schema = yup
   })
   .required()
 
-function AddUserFrom({ toggleModal, fetchData, userEditingData, users }) {
+function AddUserFrom({ toggleModal, fetchData, userEditingData }) {
   const {
     register,
     handleSubmit,
@@ -33,19 +33,6 @@ function AddUserFrom({ toggleModal, fetchData, userEditingData, users }) {
   } = useForm({
     resolver: yupResolver(schema),
   })
-
-  const handleAddUser = (data) => {
-    let updatedUsers = []
-    if (data.id === userEditingData?.id) {
-      updatedUsers = users.filter((user) => user.id !== userEditingData?.id)
-      updatedUsers = [data, ...updatedUsers]
-    } else {
-      updatedUsers = [data, ...users]
-    }
-    localStorage.setItem('USERS_LIST', JSON.stringify(updatedUsers))
-    fetchData()
-    toggleModal()
-  }
 
   const getCurrentDate = () => {
     const today = new Date()
@@ -58,13 +45,42 @@ function AddUserFrom({ toggleModal, fetchData, userEditingData, users }) {
     return now
   }
 
-  const onSubmit = (data) => {
-    const newData = {
-      ...data,
-      dateCreatedAt: getCurrentDate(),
-      id: userEditingData?.id || uuidv4(),
+  const handleAddUser = async (data) => {
+    if (userEditingData?.id !== undefined) {
+      // Edit
+      try {
+        const updateResult = await axios.put(
+          `https://6283e7d36b6c317d5ba758ce.endapi.io/users/${userEditingData.id}`,
+          {
+            ...data,
+          }
+        )
+        if (updateResult.status === 200) {
+          // show updated sucessfully message to user
+        }
+      } catch (error) {
+        // show updated error message to user
+      }
+    } else {
+      // Add
+      try {
+        const addResult = await axios.post(
+          'https://6283e7d36b6c317d5ba758ce.endapi.io/users/',
+          {
+            ...data,
+            dateCreatedAt: getCurrentDate(),
+            password: '123456789',
+          }
+        )
+        if (addResult.status === 200) {
+          // show added sucessfully message to user
+        }
+      } catch (error) {
+        // show added sucessfully message to user
+      }
     }
-    handleAddUser(newData)
+    fetchData()
+    toggleModal()
   }
 
   return (
@@ -96,7 +112,7 @@ function AddUserFrom({ toggleModal, fetchData, userEditingData, users }) {
       <button
         type="button"
         className="bg-cyan-500 p-3 text-gray-50 rounded my-6 w-full font-bold"
-        onClick={handleSubmit(onSubmit)}
+        onClick={handleSubmit(handleAddUser)}
       >
         افزودن
       </button>

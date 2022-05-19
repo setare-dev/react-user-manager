@@ -4,13 +4,7 @@ import AddUserFrom from '../users/AddUserFrom'
 import Modal from './Modal'
 import TitleSection from './TitleSection'
 
-function Header({
-  fetchData,
-  users,
-  userEditingData,
-  toggleModal,
-  isOpenModal,
-}) {
+function Header({ fetchData, userEditingData, toggleModal, isOpenModal }) {
   return (
     <>
       <TitleSection toggleModal={toggleModal} />
@@ -19,7 +13,6 @@ function Header({
           fetchData={fetchData}
           toggleModal={toggleModal}
           userEditingData={userEditingData}
-          users={users}
         />
       </Modal>
     </>
