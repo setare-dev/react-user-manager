@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+
+import axiosRequest from '../api/axiosRequest'
 import Header from './layouts/Header'
 import UserTable from './users/UserTable'
 import Loading from './Loading'
@@ -13,9 +14,7 @@ function App() {
   const fetchData = async () => {
     setIsLoading(true)
     try {
-      const result = await axios.get(
-        'https://6283e7d36b6c317d5ba758ce.endapi.io/users/'
-      )
+      const result = await axiosRequest.get('/users/')
       if (result.data.data.length > 0) setUsers(result.data.data.reverse())
     } catch (error) {
       // Show error message for reload again

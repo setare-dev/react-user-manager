@@ -15,7 +15,9 @@ function RadioInputField({ register, userEditingData, label, name, data }) {
         >
           {data.length > 0 &&
             data.map((item) => (
-              <option value={item.value}>{item.label}</option>
+              <option key={Math.random()} value={item.value}>
+                {item.label}
+              </option>
             ))}
         </select>
       </label>

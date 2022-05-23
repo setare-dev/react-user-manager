@@ -1,9 +1,9 @@
 import React from 'react'
-import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
+import axiosRequest from '../../api/axiosRequest'
 import InputField from './fields/InputField'
 import RadioInputField from './fields/RadioInputField'
 
@@ -45,12 +45,12 @@ function AddUserFrom({ toggleModal, fetchData, userEditingData }) {
   }
 
   const handleAddUser = async (data) => {
-    console.log('data=>', data)
+    // console.log('data=>', data)
     if (userEditingData?.id !== undefined) {
       // Edit
       try {
-        const updateResult = await axios.put(
-          `https://6283e7d36b6c317d5ba758ce.endapi.io/users/${userEditingData.id}`,
+        const updateResult = await axiosRequest.put(
+          `/users/${userEditingData.id}`,
           {
             ...data,
           }
@@ -64,13 +64,10 @@ function AddUserFrom({ toggleModal, fetchData, userEditingData }) {
     } else {
       // Add
       try {
-        const addResult = await axios.post(
-          'https://6283e7d36b6c317d5ba758ce.endapi.io/users/',
-          {
-            ...data,
-            dateCreatedAt: getCurrentDate(),
-          }
-        )
+        const addResult = await axiosRequest.post('/users/', {
+          ...data,
+          dateCreatedAt: getCurrentDate(),
+        })
         if (addResult.status === 200) {
           // show added sucessfully message to user
         }

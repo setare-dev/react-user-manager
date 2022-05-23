@@ -1,6 +1,7 @@
 import React from 'react'
-import axios from 'axios'
 import { FiEdit, FiTrash2 } from 'react-icons/fi'
+
+import axiosRequest from '../../api/axiosRequest'
 
 function User({
   data,
@@ -23,9 +24,7 @@ function User({
       // const newList = users.filter((user) => user.id !== key)
       // localStorage.setItem('USERS_LIST', JSON.stringify(newList))
       try {
-        const deleteResult = await axios.delete(
-          `https://6283e7d36b6c317d5ba758ce.endapi.io/users/${key}`
-        )
+        const deleteResult = await axiosRequest.delete(`/users/${key}`)
         if (deleteResult.status === 200) {
           // show deleteResult sucessfully message to user
         }
