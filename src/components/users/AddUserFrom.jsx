@@ -3,10 +3,9 @@ import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import NameFamily from './fields/NameFamily'
-import Username from './fields/Username'
-import Email from './fields/Email'
-import Role from './fields/Role'
+
+import InputField from './fields/InputField'
+import RadioInputField from './fields/RadioInputField'
 
 const schema = yup
   .object({
@@ -46,6 +45,7 @@ function AddUserFrom({ toggleModal, fetchData, userEditingData }) {
   }
 
   const handleAddUser = async (data) => {
+    console.log('data=>', data)
     if (userEditingData?.id !== undefined) {
       // Edit
       try {
@@ -69,7 +69,6 @@ function AddUserFrom({ toggleModal, fetchData, userEditingData }) {
           {
             ...data,
             dateCreatedAt: getCurrentDate(),
-            password: '123456789',
           }
         )
         if (addResult.status === 200) {
@@ -85,28 +84,46 @@ function AddUserFrom({ toggleModal, fetchData, userEditingData }) {
 
   return (
     <form>
-      <NameFamily
+      <InputField
         register={register}
         userEditingData={userEditingData}
         errors={errors}
+        name="fullName"
+        label="نام و نام خانوادگی"
       />
-
-      <Username
+      <InputField
         register={register}
         userEditingData={userEditingData}
         errors={errors}
+        name="userName"
+        label="نام کاربری"
       />
-
-      <Email
+      <InputField
         register={register}
         userEditingData={userEditingData}
         errors={errors}
+        name="email"
+        label="ایمیل"
       />
-
-      <Role
+      {!userEditingData?.id && (
+        <InputField
+          register={register}
+          userEditingData={userEditingData}
+          errors={errors}
+          name="password"
+          label="رمز عبور"
+        />
+      )}
+      <RadioInputField
         register={register}
         userEditingData={userEditingData}
         errors={errors}
+        name="role"
+        label="نقش"
+        data={[
+          { value: 'admin', label: 'ادمین' },
+          { value: 'user', label: 'کاربر' },
+        ]}
       />
 
       <button
