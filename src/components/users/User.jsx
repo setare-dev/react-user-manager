@@ -2,6 +2,7 @@ import React from 'react'
 import { FiEdit, FiTrash2 } from 'react-icons/fi'
 
 import axiosRequest from '../../api/axiosRequest'
+import { ToastAlert } from '../toastAlert'
 
 function User({
   data,
@@ -21,15 +22,13 @@ function User({
     // eslint-disable-next-line no-alert
     const result = window.confirm('آیا مطمئن هستید؟')
     if (result) {
-      // const newList = users.filter((user) => user.id !== key)
-      // localStorage.setItem('USERS_LIST', JSON.stringify(newList))
       try {
         const deleteResult = await axiosRequest.delete(`/users/${key}`)
         if (deleteResult.status === 200) {
-          // show deleteResult sucessfully message to user
+          ToastAlert('کاربر با موفقیت حذف شد')
         }
       } catch (error) {
-        // show deleteResult error message to user
+        ToastAlert('عملیات انجام نشد لطفا مجددا تلاش کنید', 'Error')
       }
     }
     fetchData()

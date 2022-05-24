@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import axiosRequest from '../api/axiosRequest'
 import Header from './layouts/Header'
 import UserTable from './users/UserTable'
@@ -49,6 +50,7 @@ function App() {
           setUserEditingData={setUserEditingData}
         />
       )}
+      <ToastContainer />
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -6,6 +6,7 @@ import * as yup from 'yup'
 import axiosRequest from '../../api/axiosRequest'
 import InputField from './fields/InputField'
 import RadioInputField from './fields/RadioInputField'
+import { ToastAlert } from '../toastAlert'
 
 const schema = yup
   .object({
@@ -25,6 +26,7 @@ const schema = yup
   .required()
 
 function AddUserFrom({ toggleModal, fetchData, userEditingData }) {
+  const [addError, setAddError] = useState()
   const {
     register,
     handleSubmit,
@@ -45,7 +47,6 @@ function AddUserFrom({ toggleModal, fetchData, userEditingData }) {
   }
 
   const handleAddUser = async (data) => {
-    // console.log('data=>', data)
     if (userEditingData?.id !== undefined) {
       // Edit
       try {
@@ -56,7 +57,9 @@ function AddUserFrom({ toggleModal, fetchData, userEditingData }) {
           }
         )
         if (updateResult.status === 200) {
-          // show updated sucessfully message to user
+          ToastAlert('اطلاعات کاربر با موفقیت آپدیت شد')
+          fetchData()
+          toggleModal()
         }
       } catch (error) {
         // show updated error message to user
@@ -69,14 +72,16 @@ function AddUserFrom({ toggleModal, fetchData, userEditingData }) {
           dateCreatedAt: getCurrentDate(),
         })
         if (addResult.status === 200) {
-          // show added sucessfully message to user
+          ToastAlert('کاربر با موفقیت اضافه شد')
+          fetchData()
+          toggleModal()
         }
       } catch (error) {
-        // show added sucessfully message to user
+        if (error.response.data.message.includes('email')) {
+          setAddError('این آدرس ایمیل قبلا ثبت شده است.')
+        }
       }
     }
-    fetchData()
-    toggleModal()
   }
 
   return (
@@ -122,7 +127,7 @@ function AddUserFrom({ toggleModal, fetchData, userEditingData }) {
           { value: 'user', label: 'کاربر' },
         ]}
       />
-
+      {addError && <p className="my-4 text-red-500">{addError}</p>}
       <button
         type="button"
         className="bg-cyan-500 p-3 text-gray-50 rounded my-6 w-full font-bold"
