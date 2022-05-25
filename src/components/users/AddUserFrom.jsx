@@ -6,7 +6,7 @@ import * as yup from 'yup'
 import axiosRequest from '../../api/axiosRequest'
 import InputField from './fields/InputField'
 import RadioInputField from './fields/RadioInputField'
-import { ToastAlert } from '../toastAlert'
+import { ToastAlert } from '../customAlert'
 
 const schema = yup
   .object({
@@ -57,7 +57,7 @@ function AddUserFrom({ toggleModal, fetchData, userEditingData }) {
           }
         )
         if (updateResult.status === 200) {
-          ToastAlert('اطلاعات کاربر با موفقیت آپدیت شد')
+          ToastAlert('اطلاعات کاربر با موفقیت بروزرسانی شد')
           fetchData()
           toggleModal()
         }

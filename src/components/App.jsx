@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import axiosRequest from '../api/axiosRequest'
@@ -16,7 +17,7 @@ function App() {
     setIsLoading(true)
     try {
       const result = await axiosRequest.get('/users/')
-      if (result.data.data.length > 0) setUsers(result.data.data.reverse())
+      if (result.data.data.length >= 0) setUsers(result.data.data.reverse())
     } catch (error) {
       // Show error message for reload again
     }
