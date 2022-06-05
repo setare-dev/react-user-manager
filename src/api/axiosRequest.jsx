@@ -11,7 +11,6 @@ const axiosRequest = axios.create({
 
 axiosRequest.interceptors.request.use(
   (request) => {
-    request.headers['Content-Type'] = 'multipart/form-data'
     return request
   },
   null,

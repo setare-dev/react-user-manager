@@ -1,10 +1,14 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+
 import User from './User'
 
-function UserTable({ users, toggleModal, fetchData, setUserEditingData }) {
+function UserTable({ toggleModal, setUserEditingData }) {
+  const userList = useSelector((state) => state.users.list)
+
   return (
     <div className="m-14">
-      {users.length > 0 ? (
+      {userList.length > 0 ? (
         <table className="border-collapse table-auto text-sm w-full shadow-md bg-slate-100">
           <thead>
             <tr>
@@ -32,16 +36,14 @@ function UserTable({ users, toggleModal, fetchData, setUserEditingData }) {
             </tr>
           </thead>
           <tbody className="bg-white dark:bg-slate-800">
-            {users.map((userData, userKey) => {
+            {userList.map((userData, index) => {
               return (
                 <User
+                  userIndex={index}
                   key={userData.id}
                   data={userData}
-                  fetchData={fetchData}
                   toggleModal={toggleModal}
-                  users={users}
                   setUserEditingData={setUserEditingData}
-                  userKey={userKey}
                 />
               )
             })}

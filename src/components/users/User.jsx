@@ -1,31 +1,25 @@
 import React from 'react'
 import { FiEdit, FiTrash2 } from 'react-icons/fi'
-
+import { useDispatch } from 'react-redux'
 import axiosRequest from '../../api/axiosRequest'
 import { ToastAlert, QuestionAlert } from '../customAlert'
+import { deleteUser } from '../../store/slices/userSlice'
 
-function User({
-  data,
-  toggleModal,
-  userKey,
-  users,
-  setUserEditingData,
-  fetchData,
-}) {
-  const handleOpenEdit = (key) => {
+function User({ data, toggleModal, setUserEditingData, userIndex }) {
+  const dispatch = useDispatch()
+  const handleOpenEdit = () => {
     toggleModal()
-    const userEditingData = users.filter((user) => user.id === key)
-    setUserEditingData(userEditingData[0])
+    setUserEditingData(data)
   }
 
-  const handleDelete = async (key) => {
+  const handleDelete = async () => {
     const result = await QuestionAlert()
     if (result) {
       try {
-        const deleteResult = await axiosRequest.delete(`/users/${key}`)
+        const deleteResult = await axiosRequest.delete(`/users/${data.id}`)
         if (deleteResult.status === 200) {
           ToastAlert('کاربر با موفقیت حذف شد')
-          fetchData()
+          dispatch(deleteUser(data.id))
         }
       } catch (error) {
         ToastAlert('عملیات انجام نشد لطفا مجددا تلاش کنید', 'Error')
@@ -36,7 +30,7 @@ function User({
   return (
     <tr>
       <td className="border-b border-slate-100 p-4 pl-8 text-slate-500 text-center">
-        {userKey + 1}
+        {userIndex + 1}
       </td>
       <td className="border-b border-slate-100 p-4 pl-8 text-slate-500 text-center">
         {data.fullName}
@@ -55,18 +49,10 @@ function User({
       </td>
       <td className="border-b border-slate-100 p-4 pl-8 text-slate-500">
         <div className="flex flex-row justify-center">
-          <div
-            onClick={() => handleOpenEdit(data.id)}
-            className="m-2"
-            aria-hidden="true"
-          >
+          <div onClick={handleOpenEdit} className="m-2" aria-hidden="true">
             <FiEdit color="#04b6d3" size="1.2rem" />
           </div>
-          <div
-            onClick={() => handleDelete(data.id)}
-            className="m-2"
-            aria-hidden="true"
-          >
+          <div onClick={handleDelete} className="m-2" aria-hidden="true">
             <FiTrash2 color="red" size="1.2rem" />
           </div>
         </div>
