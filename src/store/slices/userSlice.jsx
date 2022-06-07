@@ -9,7 +9,7 @@ const usersSlice = createSlice({
   },
   reducers: {
     addUser: (state, action) => {
-      state.list.push(action.payload)
+      state.list.unshift(action.payload)
     },
     setUsers: (state, { payload }) => {
       state.list = payload
