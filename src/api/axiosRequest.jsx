@@ -3,10 +3,6 @@ import axios from 'axios'
 const axiosRequest = axios.create({
   baseURL: 'https://6283e7d36b6c317d5ba758ce.endapi.io/',
   timeout: 3000,
-  headers: {
-    'Content-Type': 'application/json',
-    Accept: 'application/json',
-  },
 })
 
 axiosRequest.interceptors.request.use(

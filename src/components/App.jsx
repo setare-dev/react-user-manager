@@ -8,15 +8,12 @@ import axiosRequest from '../api/axiosRequest'
 import Header from './layouts/Header'
 import UserTable from './users/UserTable'
 import Loading from './Loading'
-
+import { ToastAlert } from './customAlert'
 import { setUsers } from '../store/slices/userSlice'
 
 function App() {
   const dispatch = useDispatch()
-  // const [users, setUsers] = useState([])
   const [isLoading, setIsLoading] = useState()
-  const [isOpenModal, setIsOpenModal] = useState()
-  const [userEditingData, setUserEditingData] = useState(null)
 
   const fetchData = async () => {
     setIsLoading(true)
@@ -25,7 +22,7 @@ function App() {
       if (result.data.data.length >= 0)
         dispatch(setUsers(result.data.data.reverse()))
     } catch (error) {
-      // Show error message for reload again
+      ToastAlert('خطایی رخ داده است')
     }
     setIsLoading(false)
   }
@@ -34,27 +31,12 @@ function App() {
     fetchData()
   }, [])
 
-  const toggleModal = () => {
-    if (isOpenModal) setUserEditingData(null)
-    setIsOpenModal(!isOpenModal)
-  }
-
   return (
     <div className="font-IRANSans">
-      <Header
-        isOpenModal={isOpenModal}
-        toggleModal={toggleModal}
-        userEditingData={userEditingData}
-      />
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <UserTable
-          fetchData={fetchData}
-          toggleModal={toggleModal}
-          setUserEditingData={setUserEditingData}
-        />
-      )}
+      <Header />
+      {isLoading ? <Loading /> : <UserTable />}
+
+      {/* for show taost message */}
       <ToastContainer />
     </div>
   )

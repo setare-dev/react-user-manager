@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 
 import User from './User'
 
-function UserTable({ toggleModal, setUserEditingData }) {
+function UserTable() {
   const userList = useSelector((state) => state.users.list)
 
   return (
@@ -38,13 +38,7 @@ function UserTable({ toggleModal, setUserEditingData }) {
           <tbody className="bg-white dark:bg-slate-800">
             {userList.map((userData, index) => {
               return (
-                <User
-                  userIndex={index}
-                  key={userData.id}
-                  data={userData}
-                  toggleModal={toggleModal}
-                  setUserEditingData={setUserEditingData}
-                />
+                <User userIndex={index} key={userData.id} data={userData} />
               )
             })}
           </tbody>

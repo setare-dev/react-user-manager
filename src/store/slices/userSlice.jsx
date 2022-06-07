@@ -4,6 +4,8 @@ const usersSlice = createSlice({
   name: 'users',
   initialState: {
     list: [],
+    showModal: false,
+    userEditingData: {},
   },
   reducers: {
     addUser: (state, action) => {
@@ -23,8 +25,23 @@ const usersSlice = createSlice({
         userdata.id === payload.id ? payload : { ...userdata }
       )
     },
+    toggleAddUserModal: (state) => {
+      // eslint-disable-next-line no-param-reassign
+      state.showModal = !state.showModal
+    },
+    setUserEditingData: (state, { payload }) => {
+      // eslint-disable-next-line no-param-reassign
+      state.userEditingData = payload
+    },
   },
 })
 
-export const { addUser, setUsers, deleteUser, editUser } = usersSlice.actions
+export const {
+  addUser,
+  setUsers,
+  deleteUser,
+  editUser,
+  toggleAddUserModal,
+  setUserEditingData,
+} = usersSlice.actions
 export default usersSlice.reducer

@@ -1,7 +1,10 @@
 import React from 'react'
 import { FiPlus } from 'react-icons/fi'
+import { useDispatch } from 'react-redux'
+import { toggleAddUserModal } from '../../store/slices/userSlice'
 
-function TitleSection({ toggleModal }) {
+function TitleSection() {
+  const dispatch = useDispatch()
   return (
     <div className="px-14 my-20">
       <div className="flex flex-row justify-between">
@@ -13,7 +16,7 @@ function TitleSection({ toggleModal }) {
         </div>
         <button
           type="button"
-          onClick={toggleModal}
+          onClick={() => dispatch(toggleAddUserModal())}
           className="bg-cyan-500 px-4 text-gray-50 rounded my-6 shadow-md"
         >
           <div className="flex flex-row item-center justify-center font-bold">

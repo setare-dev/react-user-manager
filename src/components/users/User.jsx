@@ -3,13 +3,18 @@ import { FiEdit, FiTrash2 } from 'react-icons/fi'
 import { useDispatch } from 'react-redux'
 import axiosRequest from '../../api/axiosRequest'
 import { ToastAlert, QuestionAlert } from '../customAlert'
-import { deleteUser } from '../../store/slices/userSlice'
+import {
+  deleteUser,
+  setUserEditingData,
+  toggleAddUserModal,
+} from '../../store/slices/userSlice'
 
-function User({ data, toggleModal, setUserEditingData, userIndex }) {
+function User({ data, userIndex }) {
   const dispatch = useDispatch()
+
   const handleOpenEdit = () => {
-    toggleModal()
-    setUserEditingData(data)
+    dispatch(toggleAddUserModal())
+    dispatch(setUserEditingData(data))
   }
 
   const handleDelete = async () => {

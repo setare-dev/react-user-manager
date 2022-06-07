@@ -2,13 +2,17 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import axiosRequest from '../../api/axiosRequest'
 import InputField from './fields/InputField'
 import RadioInputField from './fields/RadioInputField'
 import { ToastAlert } from '../customAlert'
-import { addUser, editUser } from '../../store/slices/userSlice'
+import {
+  addUser,
+  editUser,
+  toggleAddUserModal,
+} from '../../store/slices/userSlice'
 
 const schema = yup
   .object({
@@ -27,8 +31,9 @@ const schema = yup
   })
   .required()
 
-function AddUserFrom({ toggleModal, userEditingData }) {
+function AddUserFrom() {
   const dispatch = useDispatch()
+  const userEditingData = useSelector((state) => state.users.userEditingData)
   const [addError, setAddError] = useState()
   const {
     register,
@@ -63,7 +68,7 @@ function AddUserFrom({ toggleModal, userEditingData }) {
           ToastAlert('اطلاعات کاربر با موفقیت بروزرسانی شد')
 
           dispatch(editUser(updateResult.data.data))
-          toggleModal()
+          dispatch(toggleAddUserModal())
         }
       } catch (error) {
         // show updated error message to user
@@ -78,7 +83,7 @@ function AddUserFrom({ toggleModal, userEditingData }) {
         if (addResult.status === 200) {
           dispatch(addUser(addResult.data.data))
           ToastAlert('کاربر با موفقیت اضافه شد')
-          toggleModal()
+          dispatch(toggleAddUserModal())
         }
       } catch (error) {
         if (error.response.data.message.includes('email')) {
