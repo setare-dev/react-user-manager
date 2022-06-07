@@ -4,7 +4,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useDispatch } from 'react-redux'
 
-import axiosRequest from '../api/axiosRequest'
+import { getUsers } from '../api/userApi'
 import Header from './layouts/Header'
 import UserTable from './users/UserTable'
 import Loading from './Loading'
@@ -18,7 +18,7 @@ function App() {
   const fetchData = async () => {
     setIsLoading(true)
     try {
-      const result = await axiosRequest.get('/users/')
+      const result = await getUsers()
       if (result.data.data.length >= 0)
         dispatch(setUsers(result.data.data.reverse()))
     } catch (error) {
@@ -36,7 +36,7 @@ function App() {
       <Header />
       {isLoading ? <Loading /> : <UserTable />}
 
-      {/* for show taost message */}
+      {/* Container for show taost message */}
       <ToastContainer />
     </div>
   )

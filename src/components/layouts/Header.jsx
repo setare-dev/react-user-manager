@@ -4,12 +4,12 @@ import AddUserFrom from '../users/AddUserFrom'
 import Modal from './Modal'
 import TitleSection from './TitleSection'
 
-function Header({ userEditingData }) {
+function Header() {
   return (
     <>
       <TitleSection />
       <Modal>
-        <AddUserFrom userEditingData={userEditingData} />
+        <AddUserFrom />
       </Modal>
     </>
   )

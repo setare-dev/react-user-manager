@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { useDispatch, useSelector } from 'react-redux'
 
-import axiosRequest from '../../api/axiosRequest'
+import { addUserToServer, editUserInServer } from '../../api/userApi'
 import InputField from './fields/InputField'
 import RadioInputField from './fields/RadioInputField'
 import { ToastAlert } from '../customAlert'
@@ -56,14 +56,11 @@ function AddUserFrom() {
 
   const handleAddUser = async (data) => {
     if (userEditingData?.id !== undefined) {
-      // Edit
+      // Edit Mode
       try {
-        const updateResult = await axiosRequest.put(
-          `/users/${userEditingData.id}`,
-          {
-            ...data,
-          }
-        )
+        const updateResult = await editUserInServer(userEditingData.id, {
+          ...data,
+        })
         if (updateResult.status === 200) {
           ToastAlert('اطلاعات کاربر با موفقیت بروزرسانی شد')
 
@@ -71,12 +68,12 @@ function AddUserFrom() {
           dispatch(toggleAddUserModal())
         }
       } catch (error) {
-        // show updated error message to user
+        ToastAlert('خطایی رخ داده است')
       }
     } else {
-      // Add
+      // Add Mode
       try {
-        const addResult = await axiosRequest.post('/users/', {
+        const addResult = await addUserToServer({
           ...data,
           dateCreatedAt: getCurrentDate(),
         })

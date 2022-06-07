@@ -12,25 +12,21 @@ const usersSlice = createSlice({
       state.list.push(action.payload)
     },
     setUsers: (state, { payload }) => {
-      // eslint-disable-next-line no-param-reassign
       state.list = payload
     },
     deleteUser: (state, { payload }) => {
-      // eslint-disable-next-line no-param-reassign
       state.list = state.list.filter((user) => user.id !== payload)
     },
     editUser: (state, { payload }) => {
-      // eslint-disable-next-line no-param-reassign
       state.list = state.list.map((userdata) =>
         userdata.id === payload.id ? payload : { ...userdata }
       )
     },
     toggleAddUserModal: (state) => {
-      // eslint-disable-next-line no-param-reassign
+      if (state.showModal) state.userEditingData = {}
       state.showModal = !state.showModal
     },
     setUserEditingData: (state, { payload }) => {
-      // eslint-disable-next-line no-param-reassign
       state.userEditingData = payload
     },
   },

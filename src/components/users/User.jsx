@@ -1,7 +1,7 @@
 import React from 'react'
 import { FiEdit, FiTrash2 } from 'react-icons/fi'
 import { useDispatch } from 'react-redux'
-import axiosRequest from '../../api/axiosRequest'
+import { deleteUserFromServer } from '../../api/userApi'
 import { ToastAlert, QuestionAlert } from '../customAlert'
 import {
   deleteUser,
@@ -21,7 +21,7 @@ function User({ data, userIndex }) {
     const result = await QuestionAlert()
     if (result) {
       try {
-        const deleteResult = await axiosRequest.delete(`/users/${data.id}`)
+        const deleteResult = await deleteUserFromServer(data.id)
         if (deleteResult.status === 200) {
           ToastAlert('کاربر با موفقیت حذف شد')
           dispatch(deleteUser(data.id))
