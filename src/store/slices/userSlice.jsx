@@ -22,9 +22,9 @@ const usersSlice = createSlice({
         userdata.id === payload.id ? payload : { ...userdata }
       )
     },
-    toggleAddUserModal: (state) => {
+    toggleAddUserModal: (state, { payload }) => {
       if (state.showModal) state.userEditingData = {}
-      state.showModal = !state.showModal
+      state.showModal = payload
     },
     setUserEditingData: (state, { payload }) => {
       state.userEditingData = payload

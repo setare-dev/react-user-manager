@@ -1,21 +1,24 @@
 import React from 'react'
+import { Field } from 'formik'
 
-function InputField({ register, userEditingData, errors, label, name }) {
+function InputField({ touched, errors, label, name }) {
   return (
-    <>
+    <div className="mt-2">
       <label htmlFor={name}>
         {label}
         <br />
-        <input
-          id={name}
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          {...register(name)}
-          className="w-full border  p-2 rounded-sm "
-          defaultValue={userEditingData?.[name] || ''}
+
+        <Field
+          name={name}
+          className={`w-full border  p-2 rounded-sm ${
+            errors[name] && touched[name] && `border-red-500`
+          }`}
         />
       </label>
-      <p className="mb-4 text-red-500">{errors[name]?.message}</p>
-    </>
+      {errors[name] && touched[name] && (
+        <p className="mb-4 text-red-500">{errors[name]}</p>
+      )}
+    </div>
   )
 }
 

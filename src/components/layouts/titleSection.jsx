@@ -16,7 +16,7 @@ function TitleSection() {
         </div>
         <button
           type="button"
-          onClick={() => dispatch(toggleAddUserModal())}
+          onClick={() => dispatch(toggleAddUserModal(true))}
           className="bg-cyan-500 px-4 text-gray-50 rounded my-6 shadow-md"
         >
           <div className="flex flex-row item-center justify-center font-bold">

@@ -13,7 +13,7 @@ function User({ data, userIndex }) {
   const dispatch = useDispatch()
 
   const handleOpenEdit = () => {
-    dispatch(toggleAddUserModal())
+    dispatch(toggleAddUserModal(true))
     dispatch(setUserEditingData(data))
   }
 
