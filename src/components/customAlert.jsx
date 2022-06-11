@@ -1,9 +1,10 @@
 import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
 
+// error , success , info , warning
 const ToastAlert = (message, TYPE = 'success') => {
   return toast(message, {
-    position: 'bottom-left',
+    position: 'bottom-right',
     type: TYPE,
     autoClose: 3000,
     rtl: true,
@@ -25,6 +26,7 @@ const QuestionAlert = (
     return Swal.fire({
       icon: 'question',
       html,
+      confirmButtonColor: '#04b6d3',
       showConfirmButton: true,
       showCancelButton: true,
       confirmButtonText,

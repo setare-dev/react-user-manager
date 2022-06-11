@@ -37,7 +37,17 @@ function App() {
       {isLoading ? <Loading /> : <UserTable />}
 
       {/* Container for show taost message */}
-      <ToastContainer />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   )
 }
